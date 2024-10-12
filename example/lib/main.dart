@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:functional_widget_macro/functional_widget_macro.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    const Column(
+      children: [
+        Header(),
+        // UserCard('John Doe'),
+        // Footer(color: Colors.green),
+      ],
+    ),
+  );
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+@FunctionalWidget()
+Widget _header() => const Text("User Details");
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
-}
+// @FunctionalWidget()
+// Widget _userCard(String name) => Center(child: Text(name));
+
+// @FunctionalWidget()
+// Widget _footer(BuildContext context, {Color? color}) {
+//   return Container(
+//     color: color ?? Theme.of(context).primaryColor,
+//     child: const Icon(Icons.arrow_downward_rounded),
+//   );
+// }
