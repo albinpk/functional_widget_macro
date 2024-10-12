@@ -1,6 +1,3 @@
-
-// ignore_for_file: deprecated_member_use
-
 import 'dart:async';
 
 import 'package:macros/macros.dart';
@@ -8,9 +5,8 @@ import 'package:macros/macros.dart';
 final _material = Uri.parse('package:flutter/material.dart');
 final _core = Uri.parse('dart:core');
 
-macro //
-class Fun implements FunctionTypesMacro {
-  const Fun();
+macro class FunctionalWidget implements FunctionTypesMacro {
+  const FunctionalWidget();
 
   @override
   Future<void> buildTypesForFunction(
@@ -48,7 +44,6 @@ class Fun implements FunctionTypesMacro {
 
     // identifiers
     final widget = await builder.resolveIdentifier(_material, 'Widget');
-    final key = await builder.resolveIdentifier(_material, 'Key');
     final statelessWidget =
         await builder.resolveIdentifier(_material, 'StatelessWidget');
     final buildContext =
@@ -65,13 +60,11 @@ class Fun implements FunctionTypesMacro {
     // parameters without context
     final params = allParams.where((p) => !p.isContext).toList();
 
-    final hasContext = contextParam != null;
-    
 
     builder.declareType(
       widgetName,
       DeclarationCode.fromParts([
-        "import 'dart:core';\n\n",
+        // "import 'dart:core';\n\n",
         'class $widgetName extends ',
         statelessWidget,
         ' {\n'
@@ -85,10 +78,9 @@ class Fun implements FunctionTypesMacro {
           ]);
         }),
 
-          if (positionalParams.isNotEmpty) ' ',
+        if (positionalParams.isNotEmpty) ' ',
         '{\n    ',
         'super.key,\n',
-
 
         if (namedParams.isNotEmpty) ...[
           ...namedParams.where((p) => !p.isContext).map((param) {
@@ -99,7 +91,6 @@ class Fun implements FunctionTypesMacro {
             ]);
           }),
         ],
-
 
         '  });\n\n',
 
